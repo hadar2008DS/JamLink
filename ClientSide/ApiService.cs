@@ -116,9 +116,8 @@ namespace ClientSide
                throw new HttpRequestException($"Error inserting data to {endpoint}: {ex.Message}");
             }
 
-            return result ?? -1; // <-- always return int
+            return result ?? -1; // always return int
         }
-
 
 
 
@@ -140,7 +139,7 @@ namespace ClientSide
             string result = await resp.Content.ReadAsStringAsync();
             Console.WriteLine($"Server returned message: {result}");
 
-            // You need to return an int value here.
+            // need to return an int value here.
             // Try to parse the result as int, otherwise return -1.
             if (int.TryParse(result, out int intResult))
                 return intResult;
@@ -186,10 +185,6 @@ namespace ClientSide
                 // Find "Records changed:"
                 changedRecords = int.Parse(responseContent);
 
-                //throw new HttpRequestException(
-                //    $"not found in: {id}.",
-                //    null
-                //);
             }
             catch (Exception ex)
             {
