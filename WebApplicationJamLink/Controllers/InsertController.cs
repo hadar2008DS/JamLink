@@ -197,11 +197,6 @@ namespace WebApplicationJamLink.Controllers
             if (member == null)
                 return BadRequest("GroupMember object is null.");
 
-            //if (member.Id <= 0 || member.Group == null || member.Group.Id <= 0)
-            //    return BadRequest("Person.Id and Group.Id must be > 0.");
-
-            //if (string.IsNullOrWhiteSpace(member.Username) || string.IsNullOrWhiteSpace(member.PassW))
-            //    return BadRequest("Username and PassW are required.");
 
             try
             {
