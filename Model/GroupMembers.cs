@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Model
 {
-    // Many:Many with Person and Group
+    // 1:1 with Person and Group
     public class GroupMembers : Person  
     {
         
