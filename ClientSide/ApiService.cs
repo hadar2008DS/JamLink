@@ -7,6 +7,7 @@ using System.Reflection.Metadata;
 using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using System.Text.Unicode;
 using System.Threading.Tasks;
 using static System.Net.WebRequestMethods;
 
@@ -70,7 +71,7 @@ namespace ClientSide
         private async Task<int> Insert<T>(string endpoint, T entity)
         where T : new() // T (T is a generic type) must have an empty (parameterless) constructor
         {
-            int? result = null; // will store the ID if we manage to get one
+            int? result = null; // Nullable int. It will store the ID if we manage to get one
 
             try
             {
@@ -116,55 +117,58 @@ namespace ClientSide
         }
 
 
-
+        // Generic method to update any object in the API
+        // Returns an int result from the server, or -1 if something went wrong
         private async Task<int> Update<T>(string route, T item)
         {
-            string json = System.Text.Json.JsonSerializer.Serialize(item);
+            string json = System.Text.Json.JsonSerializer.Serialize(item);  // Convert the object into JSON text
+            //Puts the JSON data into an HTTP request and tells the server it is JSON text (UTF-8)
             StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
 
-
+            // Send PUT request to the server with the JSON data
             HttpResponseMessage resp = await client.PutAsync(route, content);
-            //if (!resp.IsSuccessStatusCode)
-            //    return -1;
+            // If the request failed, read and print the server error message
             if (!resp.IsSuccessStatusCode)
             {
                 string errorContent = await resp.Content.ReadAsStringAsync();
                 Console.WriteLine("SERVER ERROR RESPONSE:\n" + errorContent);
             }
-
+            // Read the server response as text
             string result = await resp.Content.ReadAsStringAsync();
             Console.WriteLine($"Server returned message: {result}");
 
-            // need to return an int value here.
-            // Try to parse the result as int, otherwise return -1.
+            // The method must return an int
+            // Try to convert the response to int (for example: number of updated rows)
             if (int.TryParse(result, out int intResult))
                 return intResult;
             else
-                return -1;
+                return -1; // If the response is not a number, return -1 to indicate failure
         }
 
-
+        // Deletes an item from the server by ID
+        // Returns the number of changed records, or -1 if something failed
         private async Task<int> Delete(string endpoint, int id)
         {
-            int changedRecords = -1;
+            int changedRecords = -1;  // default value if delete fails
 
             try
             {
-                //basic DELETE requst does not support body, where I hid the id,
-                //so we need to create the request manually
+                // DELETE requests usually do not support a body,
+                // so we create the request manually
                 var request = new HttpRequestMessage(HttpMethod.Delete, endpoint)
                 {
-                    // Use JsonContent.Create to serialize the integer ID into the body
+                    // Put the ID inside the request body as JSON
                     Content = JsonContent.Create(id)
                 };
-
+                // Send the DELETE request to the server
                 HttpResponseMessage response = await client.SendAsync(request);
 
-                // 2. Check for failure status codes
+                // If the server returned an error status code
                 if (!response.IsSuccessStatusCode)
                 {
+                    // Read the error message from the server
                     string errorContent = await response.Content.ReadAsStringAsync();
-
+                    // Throw an error with status and message
                     throw new HttpRequestException(
                         $"Request failed: {response.StatusCode} - {errorContent}",
                         null,
@@ -172,22 +176,20 @@ namespace ClientSide
                     );
                 }
 
-                // 3. Read the response string (which contains the changed records count)
+                // Read the server response as text
+                // The response contains how many records were deleted
                 string responseContent = await response.Content.ReadAsStringAsync();
 
-                // The server returns a verbose string (e.g., "... Records changed: 1"). 
-                // We need to reliably extract the number of affected rows.
-
-                // Find "Records changed:"
+                // Convert the response to an int (number of affected rows)
                 changedRecords = int.Parse(responseContent);
 
             }
             catch (Exception ex)
             {
-                // Centralized error logging
+                // Print the error so we know what went wrong
                 Console.WriteLine($"Error deleting data via {endpoint}: {ex.Message}");
             }
-            return changedRecords;
+            return changedRecords;  // Always return a number
         }
 
 
