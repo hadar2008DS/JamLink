@@ -25,34 +25,40 @@ namespace ClientSide
 
 
         private async Task<T> Select<T>(string endpoint)
-                where T : new()
+                where T : new() // T (T is a generic type) must have an empty (parameterless) constructor
         {
             try
             {
-                // The method uses the relative path defined in the public methods
+                // Send GET request to the server and convert the JSON response to type T
                 var result = await client.GetFromJsonAsync<T>(endpoint);
                 if (result is null)
                 {
-                    // treat empty response as an error so we don't return a null to a non-nullable T
+                    // If the server returned nothing, treat it as an error
+                    // so we don't return null for a non-nullable type
                     throw new HttpRequestException($"Empty response from {endpoint}");
                 }
+                // Return the data we got from the server
                 return result;
             }
             catch (Exception ex)
             {
-                // Centralized error logging
+                // Print the error to help with debugging
                 Console.WriteLine($"Error fetching data from {endpoint}: {ex.Message}");
-                // Try to create a fallback instance without requiring a compile-time 'new()' constraint
+                // If something went wrong, try to return a default object instead of crashing
                 try
                 {
-                    var fallback = Activator.CreateInstance(typeof(T));
+                    // Create a new instance of T at runtime (fallback object)
+                    //A fallback is a backup value
+                    //If something goes wrong, instead of crashing or returning null, we return a safe default object.
+                    var fallback = Activator.CreateInstance(typeof(T)); 
+                    // Check that the created object is really of type T
                     if (fallback is T typedFallback)
-                        return typedFallback;
+                        return typedFallback; // return a default or empty T object
                     throw new HttpRequestException($"Unable to create fallback instance of {typeof(T).FullName}");
                 }
                 catch (Exception createEx)
                 {
-                    // If we cannot create a fallback, surface a clear exception
+                    // If even the fallback creation fails, throw a clear error
                     throw new HttpRequestException($"Error fetching data from {endpoint}: {ex.Message}; fallback failed: {createEx.Message}", ex);
                 }
             }
@@ -154,7 +160,7 @@ namespace ClientSide
 
             try
             {
-                //basic DELETE requst does not support body, where I hid the idx,
+                //basic DELETE requst does not support body, where I hid the id,
                 //so we need to create the request manually
                 var request = new HttpRequestMessage(HttpMethod.Delete, endpoint)
                 {
