@@ -16,7 +16,8 @@ namespace ClientSide
     public class ApiService : IApiService
     {
         private readonly HttpClient client;
-        string uri= "https://3vtqpqlm-7062.euw.devtunnels.ms/";
+        ////string uri= "https://3vtqpqlm-7062.euw.devtunnels.ms/";
+        //string uri = "https://localhost:7062/swagger/v1/swagger.json"; //local host uri
         public ApiService(string connection)
         {
             client = new HttpClient();
@@ -195,79 +196,79 @@ namespace ClientSide
 
 
         // Apps
-        public Task<AppsList> GetApps() => Select<AppsList>(uri+"api/Select/AppsSelector");
-        public Task<int> InsertApp(Apps app) => Insert(uri + "api/Insert/InsertApp", app);//is working on the client side
-        public Task<int> UpdateApp(Apps app) => Update(uri + "api/Update/UpdateApp", app);
+        public Task<AppsList> GetApps() => Select<AppsList>(/*uri+*/"api/Select/AppsSelector");
+        public Task<int> InsertApp(Apps app) => Insert(/*uri +*/ "api/Insert/InsertApp", app);//is working on the client side
+        public Task<int> UpdateApp(Apps app) => Update(/*uri +*/ "api/Update/UpdateApp", app);
         public Task<int> UpdateAppAsync(Apps app) => UpdateApp(app);
        
 
 
         // Group
-        public Task<GroupList> GetGroups() => Select<GroupList>(uri + "api/Select/GroupSelector");
-        public Task<int> InsertGroup(Group group) => Insert(uri + "api/Insert/InsertGroup", group);
-        public Task<int> UpdateGroup(Group group) => Update(uri + "api/Update/UpdateGroup", group);
+        public Task<GroupList> GetGroups() => Select<GroupList>(/*uri +*/ "api/Select/GroupSelector");
+        public Task<int> InsertGroup(Group group) => Insert(/*uri +*/ "api/Insert/InsertGroup", group);
+        public Task<int> UpdateGroup(Group group) => Update(/*uri + */"api/Update/UpdateGroup", group);
         public Task<int> UpdateGroupAsync(Group group) => UpdateGroup(group);
         public Task<int> DeleteGroup(int groupId) => Delete($"api/Delete/DeleteGroup", groupId);
 
         // GroupMembers
-        public Task<GroupMembersList> GetGroupMembers() => Select<GroupMembersList>(uri + "api/Select/GroupMembersSelector");
-        public Task<int> InsertGroupMember(GroupMembers groupMember) => Insert(uri + "api/Insert/InsertGroupMember", groupMember);
-        public Task<int> UpdateGroupMember(GroupMembers groupMember) => Update(uri + "api/Update/UpdateGroupMember", groupMember);
+        public Task<GroupMembersList> GetGroupMembers() => Select<GroupMembersList>(/*uri +*/ "api/Select/GroupMembersSelector");
+        public Task<int> InsertGroupMember(GroupMembers groupMember) => Insert(/*uri +*/ "api/Insert/InsertGroupMember", groupMember);
+        public Task<int> UpdateGroupMember(GroupMembers groupMember) => Update(/*uri +*/ "api/Update/UpdateGroupMember", groupMember);
         public Task<int> UpdateGroupMemberAsync(GroupMembers groupMember) => UpdateGroupMember(groupMember);
         public Task<int> DeleteGroupMember(int groupMemberId) => Delete($"api/Delete/DeleteGroupMembers",groupMemberId);
 
 
 
         // Instruments
-        public Task<InstrumentsList> GetInstruments() => Select<InstrumentsList>(uri + "api/Select/InstrumentsSelector");
-        public Task<int> InsertInstrument(Instruments instrument) => Insert(uri + "api/Insert/InsertInstrument", instrument);
-        public Task<int> UpdateInstrument(Instruments instrument) => Update(uri + "api/Update/UpdateInstrument", instrument);
+        public Task<InstrumentsList> GetInstruments() => Select<InstrumentsList>(/*uri +*/ "api/Select/InstrumentsSelector");
+        public Task<int> InsertInstrument(Instruments instrument) => Insert(/*uri +*/ "api/Insert/InsertInstrument", instrument);
+        public Task<int> UpdateInstrument(Instruments instrument) => Update(/*uri +*/ "api/Update/UpdateInstrument", instrument);
         public Task<int> UpdateInstrumentAsync(Instruments instrument) => UpdateInstrument(instrument);
 
 
         // MusicalSegments
-        public Task<MusicalSegmentsList> GetMusicalSegments() => Select<MusicalSegmentsList>(uri + "api/Select/MusicalSegmentsSelector");
-        public Task<int> InsertMusicalSegment(MusicalSegments segment) => Insert(uri + "api/Insert/InsertMusicalSegment", segment);
-        public Task<int> UpdateMusicalSegment(MusicalSegments segment) => Update(uri + "api/Update/UpdateMusicalSegment", segment);
+        public Task<MusicalSegmentsList> GetMusicalSegments() => Select<MusicalSegmentsList>(/*uri +*/ "api/Select/MusicalSegmentsSelector");
+        public Task<int> InsertMusicalSegment(MusicalSegments segment) => Insert(/*uri + */"api/Insert/InsertMusicalSegment", segment);
+        public Task<int> UpdateMusicalSegment(MusicalSegments segment) => Update(/*uri +*/ "api/Update/UpdateMusicalSegment", segment);
         public Task<int> UpdateMusicalSegmentAsync(MusicalSegments musicalSegment) => UpdateMusicalSegment(musicalSegment);
         public Task<int> DeleteMusicalSegment(int segmentId) => Delete($"api/Delete/DeleteMusicalSegment",segmentId);
 
 
         // MusicianInstruments
-        public Task<MusicianInstrumentsList> GetMusicianInstruments() => Select<MusicianInstrumentsList>(uri + "api/Select/MusicianInstrumentsSelector");
-        public Task<int> InsertMusicianInstrument(MusicianInstruments musicianInstrument) => Insert(uri + "api/Insert/InsertMusicianInstrument", musicianInstrument);
-        public Task<int> UpdateMusicianInstrument(MusicianInstruments musicianInstrument) => Update(uri + "api/Update/UpdateMusicianInstrument", musicianInstrument);
+        public Task<MusicianInstrumentsList> GetMusicianInstruments() => Select<MusicianInstrumentsList>(/*uri +*/ "api/Select/MusicianInstrumentsSelector");
+        public Task<int> InsertMusicianInstrument(MusicianInstruments musicianInstrument) => Insert(/*uri + */"api/Insert/InsertMusicianInstrument", musicianInstrument);
+        public Task<int> UpdateMusicianInstrument(MusicianInstruments musicianInstrument) => Update(/*uri + */"api/Update/UpdateMusicianInstrument", musicianInstrument);
         public Task<int> UpdateMusicianInstrumentAsync(MusicianInstruments musicianInstrument) => UpdateMusicianInstrument(musicianInstrument);
         public Task<int> DeleteMusicianInstrument(int musicianInstrumentId) => Delete($"api/Delete/DeleteMusicianInstrument",musicianInstrumentId);
 
 
         // Musician
-        public Task<MusicianList> GetMusicians() => Select<MusicianList>(uri + "api/Select/MusiciansSelector");
-        public Task<int> InsertMusician(Musician musician) =>Insert(uri + "api/Insert/InsertMusician", musician);
-        public Task<int> UpdateMusician(Musician musician) => Update(uri + "api/Update/UpdateMusician", musician);
+        public Task<MusicianList> GetMusicians() => Select<MusicianList>(/*uri + */"api/Select/MusiciansSelector");
+        public Task<int> InsertMusician(Musician musician) =>Insert(/*uri + */"api/Insert/InsertMusician", musician);
+        public Task<int> UpdateMusician(Musician musician) => Update(/*uri +*/ "api/Update/UpdateMusician", musician);
         public Task<int> UpdateMusicianAsync(Musician musician) => UpdateMusician(musician);
         public Task<int> DeleteMusician(int musicianId) => Delete($"api/Delete/DeleteMusician",musicianId);
 
         // Person
-        public Task<PersonList> GetPeople() => Select<PersonList>(uri + "api/Select/PersonSelector");
-        public Task<PersonList> GetPerson() => Select<PersonList>(uri + "api/Select/PersonSelector");
-        public Task<int> InsertPerson(Person person) => Insert(uri + "api/Insert/InsertPerson", person);//is working on client side
-        public Task<int> UpdatePerson(Person person) => Update(uri + "api/Update/UpdatePerson", person);
+        public Task<PersonList> GetPeople() => Select<PersonList>(/*uri + */"api/Select/PersonSelector");
+        public Task<PersonList> GetPerson() => Select<PersonList>(/*uri +*/ "api/Select/PersonSelector");
+        public Task<int> InsertPerson(Person person) => Insert(/*uri +*/ "api/Insert/InsertPerson", person);//is working on client side
+        public Task<int> UpdatePerson(Person person) => Update(/*uri +*/ "api/Update/UpdatePerson", person);
         public Task<int> UpdatePersonAsync(Person person) => UpdatePerson(person);
         public Task<int> DeletePerson(int personId) => Delete($"api/Delete/DeletePerson",personId);
 
 
         // Producer
-        public Task<PreducerList> GetProducers() => Select<PreducerList>(uri + "api/Select/ProducerSelector");
-        public Task<int> InsertProducer(Producer producer) => Insert(uri + "api/Insert/InsertProducer", producer);//is working on client side
-        public Task<int> UpdateProducer(Producer producer) => Update(uri + "api/Update/UpdateProducer", producer);   
+        public Task<PreducerList> GetProducers() => Select<PreducerList>(/*uri +*/ "api/Select/ProducerSelector");
+        public Task<int> InsertProducer(Producer producer) => Insert(/*uri +*/ "api/Insert/InsertProducer", producer);//is working on client side
+        public Task<int> UpdateProducer(Producer producer) => Update(/*uri +*/ "api/Update/UpdateProducer", producer);   
         public Task<int> UpdateProducerAsync(Producer producer) => UpdateProducer(producer);
         public Task<int> DeleteProducer(int producerId) => Delete($"api/Delete/DeleteProducer",producerId);
 
         // ProducerApps
-        public Task<ProducerAppsList> GetProducerApps() => Select<ProducerAppsList>(uri + "api/Select/ProducerAppsSelector");
-        public Task<int> InsertProducerApp(ProducerApps producerApp) => Insert(uri + "api/Insert/InsertProducerApp", producerApp);
-        public Task<int> UpdateProducerApp(ProducerApps producerApp) => Update(uri + "api/Update/UpdateProducerApp", producerApp);
+        public Task<ProducerAppsList> GetProducerApps() => Select<ProducerAppsList>(/*uri + */"api/Select/ProducerAppsSelector");
+        public Task<int> InsertProducerApp(ProducerApps producerApp) => Insert(/*uri +*/ "api/Insert/InsertProducerApp", producerApp);
+        public Task<int> UpdateProducerApp(ProducerApps producerApp) => Update(/*uri + */"api/Update/UpdateProducerApp", producerApp);
         public Task<int> UpdateProducerAppAsync(ProducerApps producerApp) => UpdateProducerApp(producerApp);
         public Task<int> DeleteProducerApp(int producerAppId) => Delete($"api/Delete/DeleteProducerApp",producerAppId);
     }
