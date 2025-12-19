@@ -65,64 +65,54 @@ namespace ClientSide
         }
 
 
-        // Generic method to insert any entity into an API and get back an ID (or null if no ID returned)
-        /*
-         PSEUDOCODE / PLAN (detailed):
-         - Try to POST the provided entity to the given endpoint using PostAsJsonAsync.
-         - Read the response content as a string.
-         - If the response status is not success, throw an HttpRequestException with status and content.
-         - Try to parse the content:
-           - If content is a plain integer, use that as the result.
-           - Otherwise, try to parse JSON and extract a property named "id" as an integer.
-         - Log the server returned message.
-         - If any exception occurs during the HTTP call or parsing:
-           - Log the original exception to Console.
-           - Throw a new HttpRequestException containing a clear message.
-             * Use a constructor overload that is widely available to avoid compatibility errors.
-             * Do not pass the original exception as the inner exception (keeps change minimal and compatible).
-         - Return result or -1 when nothing could be determined.
-        */
+        // Generic method to insert any object into the API and get back an ID
+        // If the server does not return an ID, the method returns -1
         private async Task<int> Insert<T>(string endpoint, T entity)
-        where T : new()
+        where T : new() // T (T is a generic type) must have an empty (parameterless) constructor
         {
-            int? result = null;
+            int? result = null; // will store the ID if we manage to get one
 
             try
             {
+                // Send POST request with the object as JSON
                 HttpResponseMessage response = await client.PostAsJsonAsync(endpoint, entity);
-                string content = await response.Content.ReadAsStringAsync();
+                string content = await response.Content.ReadAsStringAsync();// Read the server response as plain text
 
+                // If the request failed (400, 500, etc.), throw an error
                 if (!response.IsSuccessStatusCode)
                     throw new HttpRequestException($"Request failed: {response.StatusCode} - {content}");
-
+                // First try: maybe the server returned just a number (ID)
                 if (int.TryParse(content, out int intResult))
                     result = intResult;
                 else
                 {
-                    try
+                    try  // Second try: maybe the server returned JSON with an "id" field
                     {
                         using var doc = JsonDocument.Parse(content);
-                        if (doc.RootElement.TryGetProperty("id", out JsonElement idElement)
+                        // Try to find a property called "id" and read it as int
+                        if (doc.RootElement.TryGetProperty("id", out JsonElement idElement) 
                             && idElement.TryGetInt32(out int jsonId))
                             result = jsonId;
                     }
-                    catch { /* ignore JSON parse errors */ }
+                    catch { /* If the response is not valid JSON, just ignore it */ }
                 }
-
+                // Log what the server sent back (useful for debugging)
                 Console.WriteLine($"Server returned message: {content}");
             }
             catch (Exception ex)
             {
-                // Log the original exception for diagnostics
+                // Print the full error so we know what went wrong
                 Console.WriteLine($"Insert to {endpoint} failed: {ex}");
 
-                // Use a constructor overload that does not require passing the inner exception
-                // This avoids compatibility/constructor errors while keeping the code change minimal.
-                
-               throw new HttpRequestException($"Error inserting data to {endpoint}: {ex.Message}");
+                // Throw a clear and simple error message
+                // We do not attach the original exception to keep things simple 
+
+                throw new HttpRequestException($"Error inserting data to {endpoint}: {ex.Message}");
             }
 
-            return result ?? -1; // always return int
+            // If we got an ID, return it
+            // If not, return -1 so the caller always gets an int
+            return result ?? -1;  
         }
 
 
