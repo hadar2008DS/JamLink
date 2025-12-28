@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -54,21 +55,56 @@ namespace JamLinkUI.Pages
             passwordError.Text = string.Empty;
 
             // simple validation (keeps XAML simple, no complex bindings)
-            if (string.IsNullOrWhiteSpace(usernameBox.Text))
+            string username = usernameBox.Text ?? string.Empty;
+
+            if (string.IsNullOrWhiteSpace(username))
             {
                 usernameError.Text = "Username is required.";
+                usernameBox.Focus();// Focus() makes a control active so the user can start typing in it
+                return;
+            }
+
+            // username max length
+            if (username.Length > 12)
+            {
+                usernameError.Text = "Username must be at most 12 characters.";
+                usernameBox.Focus();
+                return;
+            }
+
+            // username only English letters and digits
+            if (!Regex.IsMatch(username, @"^[A-Za-z0-9]+$"))
+            {
+                usernameError.Text = "Username must contain only English letters and digits.";
                 usernameBox.Focus();
                 return;
             }
 
             // read password from the control currently shown
-            string password = passwordBox.Visibility == Visibility.Visible
-                ? passwordBox.Password
-                : passwordTextBox.Text;
+            string password;
+            if (passwordBox.Visibility == Visibility.Visible)
+            {
+                password = passwordBox.Password;
+            }
+            else
+            {
+                password = passwordTextBox.Text;
+            }
 
             if (string.IsNullOrWhiteSpace(password))
             {
                 passwordError.Text = "Password is required.";
+                if (passwordBox.Visibility == Visibility.Visible)
+                    passwordBox.Focus(); // Focus() makes a control active so the user can start typing in it
+                else
+                    passwordTextBox.Focus();// Focus() makes a control active so the user can start typing in it
+                return;
+            }
+
+            // password max length
+            if (password.Length > 20)
+            {
+                passwordError.Text = "Password must be at most 20 characters.";
                 if (passwordBox.Visibility == Visibility.Visible)
                     passwordBox.Focus();
                 else
@@ -76,7 +112,18 @@ namespace JamLinkUI.Pages
                 return;
             }
 
-            // TODO: perform login
+            // password only letters and digits
+            if (!Regex.IsMatch(password, @"^[A-Za-z0-9]+$"))
+            {
+                passwordError.Text = "Password must contain only letters and digits.";
+                if (passwordBox.Visibility == Visibility.Visible)
+                    passwordBox.Focus();
+                else
+                    passwordTextBox.Focus();
+                return;
+            }
+
+            // TODO List: perform login
         }
     }
 }

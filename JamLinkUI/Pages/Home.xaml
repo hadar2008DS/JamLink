@@ -21,7 +21,8 @@
 
             <StackPanel>
 
-                <TextBlock Text="Music Connect"
+                <TextBlock Text="JamLink"
+                           FontFamily="Oswald"
                            FontSize="28"
                            Foreground="#7C3AED"
                            HorizontalAlignment="Center"/>
