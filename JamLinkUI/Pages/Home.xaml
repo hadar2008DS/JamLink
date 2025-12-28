@@ -22,7 +22,7 @@
             <StackPanel>
 
                 <TextBlock Text="JamLink"
-                           FontFamily="pack://application:,,,/Assets/Fonts/Oswald[wght].ttf#Oswald" 
+                           FontFamily="{StaticResource OswaldFont}" 
                            FontSize="28"
                            Foreground="#7C3AED" 
                            HorizontalAlignment="Center"/>

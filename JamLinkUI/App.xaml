@@ -4,6 +4,7 @@
              xmlns:local="clr-namespace:JamLinkUI"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-         
+        <!-- Existing Oswald font -->
+        <FontFamily x:Key="OswaldFont">pack://application:,,,/Assets/Fonts/Oswald[wght].ttf#Oswald</FontFamily>
     </Application.Resources>
 </Application>
