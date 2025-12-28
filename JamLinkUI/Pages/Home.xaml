@@ -14,17 +14,17 @@
                 Padding="36"
                 Background="White"
                 CornerRadius="24"
-                BorderBrush="#E5E7EB"
-                BorderThickness="1"
+                BorderBrush="#7C3AED"
+                BorderThickness="2"
                 VerticalAlignment="Center"
                 HorizontalAlignment="Center">
 
             <StackPanel>
 
                 <TextBlock Text="JamLink"
-                           FontFamily="Oswald"
+                           FontFamily="pack://application:,,,/Assets/Fonts/Oswald[wght].ttf#Oswald" 
                            FontSize="28"
-                           Foreground="#7C3AED"
+                           Foreground="#7C3AED" 
                            HorizontalAlignment="Center"/>
 
                 <TextBox x:Name="usernameBox"

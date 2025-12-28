@@ -9,8 +9,16 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Assets\Fonts\Oswald[wght].ttf" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="Assets\Icons\" />
     <Folder Include="Assets\Imeges\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Assets\Fonts\Oswald[wght].ttf" />
   </ItemGroup>
 
 </Project>
