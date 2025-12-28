@@ -23,6 +23,24 @@ namespace ClientSide
 
         // Constructor of the ApiService class
         // It receives the server address and sets the API connection
+        
+        public ApiService()
+        {
+            // Safety check:
+            // If the string is not empty and does not end with "/"
+            // add "/" to avoid URL errors
+            if (!string.IsNullOrEmpty(myConnection) && !myConnection.EndsWith("/"))
+            {
+                myConnection += "/";
+            }
+
+            // Create a new HttpClient object
+            client = new HttpClient();
+
+            // Set the base address for all API requests
+            // Example: client.GetAsync("api/Groups")
+            client.BaseAddress = new Uri(myConnection);
+        }
         public ApiService(string myConnection)
         {
             // Safety check:

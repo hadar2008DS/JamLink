@@ -10,15 +10,16 @@
 
   <ItemGroup>
     <None Remove="Assets\Fonts\Oswald[wght].ttf" />
+    <None Remove="Assets\Imeges\JamLinkLogInUp.png" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Assets\Icons\" />
-    <Folder Include="Assets\Imeges\" />
   </ItemGroup>
 
   <ItemGroup>
     <Resource Include="Assets\Fonts\Oswald[wght].ttf" />
+    <Resource Include="Assets\Imeges\JamLinkLogInUp.png" />
   </ItemGroup>
 
 </Project>
