@@ -15,15 +15,31 @@ namespace ClientSide
 {
     public class ApiService : IApiService
     {
+        // HttpClient is used to send HTTP requests (GET, POST, PUT, DELETE) to the server
         private readonly HttpClient client;
-        ////string uri= "https://3vtqpqlm-7062.euw.devtunnels.ms/";
-        //string uri = "https://localhost:7062/swagger/v1/swagger.json"; //local host uri
-        public ApiService(string connection)
-        {
-            client = new HttpClient();
-            client.BaseAddress = new Uri(connection);
-        }
 
+        // This string stores the base URL of the API server
+        string myConnection = "https://3vtqpqlm-7062.euw.devtunnels.ms/";
+
+        // Constructor of the ApiService class
+        // It receives the server address and sets the API connection
+        public ApiService(string myConnection)
+        {
+            // Safety check:
+            // If the string is not empty and does not end with "/"
+            // add "/" to avoid URL errors
+            if (!string.IsNullOrEmpty(myConnection) && !myConnection.EndsWith("/"))
+            {
+                myConnection += "/";
+            }
+
+            // Create a new HttpClient object
+            client = new HttpClient();
+
+            // Set the base address for all API requests
+            // Example: client.GetAsync("api/Groups")
+            client.BaseAddress = new Uri(myConnection);
+        }
 
 
         private async Task<T> Select<T>(string endpoint)

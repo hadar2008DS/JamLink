@@ -1,0 +1,17 @@
+[
+  {
+    "Name": "Test Server",
+    "Projects": [
+      {
+        "Path": "WebApplicationJamLink\\WebApplicationJamLink.csproj",
+        "Action": "Start",
+        "DebugTarget": "https"
+      },
+      {
+        "Path": "TestServer\\TestServer.csproj",
+        "Action": "Start",
+        "DebugTarget": "TestServer"
+      }
+    ]
+  }
+]

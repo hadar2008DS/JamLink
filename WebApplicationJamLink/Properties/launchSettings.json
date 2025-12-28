@@ -27,7 +27,10 @@
       "applicationUrl": "https://localhost:7062;http://localhost:5240",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
-      }
+      },
+      "devTunnelEnabled": true,
+      "devTunnelId": "3vtqpqlm",
+      "devTunnelAccess": "anonymous"
     },
     "IIS Express": {
       "commandName": "IISExpress",
