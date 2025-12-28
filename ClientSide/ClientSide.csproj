@@ -7,13 +7,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Model\Model.csproj" />
     <ProjectReference Include="..\ViewModel\ViewModel.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Reference Include="Model">
-      <HintPath>..\WebApplicationJamLink\bin\Debug\net8.0\Model.dll</HintPath>
-    </Reference>
   </ItemGroup>
 
 </Project>
